@@ -1,9 +1,8 @@
 #Original source: https://github.com/sumuzhao/CycleGAN-Music-Style-Transfer
 import numpy as np
 import pretty_midi
-from preprocess import Instrument
 
-def save_midis(bars, file_path, tempo=80.0):
+def save_midis(bars, file_path, programs, tempo=80.0):
 	padded_bars = np.concatenate((np.zeros((bars.shape[0], bars.shape[1], 24, bars.shape[3])), bars,
 								  np.zeros((bars.shape[0], bars.shape[1], 20, bars.shape[3]))), axis=2)
 	images_with_pause = padded_bars
@@ -15,7 +14,7 @@ def save_midis(bars, file_path, tempo=80.0):
 																				 images_with_pause.shape[2]))
 	# write_midi.write_piano_rolls_to_midi(images_with_pause_list, program_nums=[33, 0, 25, 49, 0],
 	#                                      is_drum=[False, True, False, False, False], filename=file_path, tempo=80.0)
-	write_piano_rolls_to_midi(images_with_pause_list, program_nums=[i.value for i in Instrument], is_drum=[False for _ in Instrument], filename=file_path,
+	write_piano_rolls_to_midi(images_with_pause_list, program_nums=programs, is_drum=[False for _ in programs], filename=file_path,
 										 tempo=tempo, beat_resolution=4)
 
 
